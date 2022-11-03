@@ -37,95 +37,94 @@ import org.bleachhack.util.io.BleachOnlineMang;
 
 public class BleachHack implements ModInitializer {
 
-	private static BleachHack instance = null;
+    private static BleachHack instance = null;
 
-	public static final String VERSION = "1.2.6";
-	public static final int INTVERSION = 40;
-	public static Watermark watermark;
+    public static final String VERSION = "1.2.6";
+    public static final int INTVERSION = 40;
+    public static Watermark watermark;
 
-	public static BleachEventBus eventBus;
+    public static BleachEventBus eventBus;
 
-	public static FriendManager friendMang;
-	public static BleachPlayerManager playerMang;
+    public static FriendManager friendMang;
+    public static BleachPlayerManager playerMang;
 
-	private static CompletableFuture<JsonObject> updateJson;
+    private static CompletableFuture<JsonObject> updateJson;
 
-	//private BleachFileMang bleachFileManager;
+    //private BleachFileMang bleachFileManager;
 
-	public static BleachHack getInstance() {
-		return instance;
-	}
+    public static BleachHack getInstance() {
+        return instance;
+    }
 
-	public BleachHack() {
-		if (instance != null) {
-			throw new RuntimeException("A BleachHack instance already exists.");
-		}
-	}
+    public BleachHack() {
+        if (instance != null) {
+            throw new RuntimeException("A BleachHack instance already exists.");
+        }
+    }
 
-	// Phase 1
-	// TODO: base-rewrite
-	@Override
-	public void onInitialize() {
-		long initStartTime = System.currentTimeMillis();
+    // Phase 1
+    // TODO: base-rewrite
+    @Override
+    public void onInitialize() {
+        long initStartTime = System.currentTimeMillis();
 
-		instance = this;
-		watermark = new Watermark();
-		eventBus = new BleachEventBus(new InexactEventHandler("bleachhack"), BleachLogger.logger);
+        instance = this;
+        watermark = new Watermark();
+        eventBus = new BleachEventBus(new InexactEventHandler("bleachhack"), BleachLogger.logger);
 
-		friendMang = new FriendManager();
-		playerMang = new BleachPlayerManager();
+        friendMang = new FriendManager();
+        playerMang = new BleachPlayerManager();
 
-		//this.eventBus = new EventBus();
-		//this.bleachFileManager = new BleachFileMang();
+        //this.eventBus = new EventBus();
+        //this.bleachFileManager = new BleachFileMang();
 
-		BleachFileMang.init();
+        BleachFileMang.init();
 
-		BleachFileHelper.readOptions();
-		BleachFileHelper.readFriends();
+        BleachFileHelper.readOptions();
+        BleachFileHelper.readFriends();
 
-		if (Option.PLAYERLIST_SHOW_AS_BH_USER.getValue()) {
-			playerMang.startPinger();
-		}
+        if (Option.PLAYERLIST_SHOW_AS_BH_USER.getValue()) {
+            playerMang.startPinger();
+        }
 
-		if (Option.GENERAL_CHECK_FOR_UPDATES.getValue()) {
-			updateJson = BleachOnlineMang.getResourceAsync("update/" + SharedConstants.getGameVersion().getName().replace(' ', '_') + ".json", BodyHandlers.ofString())
-					.thenApply(s -> BleachJsonHelper.parseOrNull(s, JsonObject.class));
-		}
+        if (Option.GENERAL_CHECK_FOR_UPDATES.getValue()) {
+            updateJson = BleachOnlineMang.getResourceAsync("update/" + SharedConstants.getGameVersion().getName().replace(' ', '_') + ".json", BodyHandlers.ofString()).thenApply(s -> BleachJsonHelper.parseOrNull(s, JsonObject.class));
+        }
 
-		JsonElement mainMenu = BleachFileHelper.readMiscSetting("customTitleScreen");
-		if (mainMenu != null && !mainMenu.getAsBoolean()) {
-			BleachTitleScreen.customTitleScreen = false;
-		}
+        JsonElement mainMenu = BleachFileHelper.readMiscSetting("customTitleScreen");
+        if (mainMenu != null && !mainMenu.getAsBoolean()) {
+            BleachTitleScreen.customTitleScreen = false;
+        }
 
-		BleachLogger.logger.log(Level.INFO, "Loaded BleachHack (Phase 1) in %d ms.", System.currentTimeMillis() - initStartTime);
-	}
+        BleachLogger.logger.log(Level.INFO, "Loaded BleachHack (Phase 1) in %d ms.", System.currentTimeMillis() - initStartTime);
+    }
 
-	// Phase 2
-	// Called after most of the game has been initialized in MixinMinecraftClient so all game resources can be accessed
-	public void postInit() {
-		long initStartTime = System.currentTimeMillis();
+    // Phase 2
+    // Called after most of the game has been initialized in MixinMinecraftClient so all game resources can be accessed
+    public void postInit() {
+        long initStartTime = System.currentTimeMillis();
 
-		ModuleManager.loadModules(this.getClass().getClassLoader().getResourceAsStream("bleachhack.modules.json"));
-		BleachFileHelper.readModules();
+        ModuleManager.loadModules(this.getClass().getClassLoader().getResourceAsStream("bleachhack.modules.json"));
+        BleachFileHelper.readModules();
 
-		// TODO: move ClickGui and UI to phase 1
-		ModuleClickGuiScreen.INSTANCE.initWindows();
-		BleachFileHelper.readClickGui();
-		BleachFileHelper.readUI();
+        // TODO: move ClickGui and UI to phase 1
+        ModuleClickGuiScreen.INSTANCE.initWindows();
+        BleachFileHelper.readClickGui();
+        BleachFileHelper.readUI();
 
-		CommandManager.loadCommands(this.getClass().getClassLoader().getResourceAsStream("bleachhack.commands.json"));
-		CommandSuggestor.start();
+        CommandManager.loadCommands(this.getClass().getClassLoader().getResourceAsStream("bleachhack.commands.json"));
+        CommandSuggestor.start();
 
-		BleachFileHelper.startSavingExecutor();
+        BleachFileHelper.startSavingExecutor();
 
-		BleachLogger.logger.log(Level.INFO, "Loaded BleachHack (Phase 2) in %d ms.", System.currentTimeMillis() - initStartTime);
-	}
+        BleachLogger.logger.log(Level.INFO, "Loaded BleachHack (Phase 2) in %d ms.", System.currentTimeMillis() - initStartTime);
+    }
 
-	public static JsonObject getUpdateJson() {
-		try {
-			return updateJson.get();
-		} catch (Exception e) {
-			return null;
-		}
-	}
+    public static JsonObject getUpdateJson() {
+        try {
+            return updateJson.get();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

@@ -100,8 +100,8 @@ public class ModuleClickGuiScreen extends ClickGuiScreen {
 
 		super.render(matrices, mouseX, mouseY, delta);
 
-		textRenderer.draw(matrices, "BleachHack-" + BleachHack.VERSION + "-" + SharedConstants.getGameVersion().getName(), 3, 3, 0x305090);
-		textRenderer.draw(matrices, "BleachHack-" + BleachHack.VERSION + "-" + SharedConstants.getGameVersion().getName(), 2, 2, 0x6090d0);
+		textRenderer.draw(matrices, "LoloHack-" + BleachHack.VERSION + "-" + SharedConstants.getGameVersion().getName(), 3, 3, 0x305090);
+		textRenderer.draw(matrices, "LoloHack-" + BleachHack.VERSION + "-" + SharedConstants.getGameVersion().getName(), 2, 2, 0x6090d0);
 
 		if (clickGui.getSetting(2).asToggle().getState()) {
 			textRenderer.drawWithShadow(matrices, "Current prefix is: \"" + Command.getPrefix() + "\" (" + Command.getPrefix() + "help)", 2, height - 20, 0x99ff99);

@@ -31,7 +31,7 @@ public class BleachOptionsScreen extends WindowScreen {
 	private WindowScrollbarWidget scrollbar;
 
 	public BleachOptionsScreen(Screen parent) {
-		super(Text.literal("BleachHack Options"));
+		super(Text.literal("LoloHack Options"));
 		this.parent = parent;
 	}
 

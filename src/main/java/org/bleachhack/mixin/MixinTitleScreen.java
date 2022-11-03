@@ -64,7 +64,7 @@ public class MixinTitleScreen extends Screen {
 		if (BleachTitleScreen.customTitleScreen) {
 			MinecraftClient.getInstance().setScreen(
 					new WindowManagerScreen(
-							Triple.of(new BleachTitleScreen(), "BleachHack", new ItemStack(Items.MUSIC_DISC_CAT)),
+							Triple.of(new BleachTitleScreen(), "LoloHack", new ItemStack(Items.MUSIC_DISC_CAT)),
 							Triple.of(new AccountManagerScreen(), "Accounts", new ItemStack(Items.PAPER)),
 							Triple.of(ModuleClickGuiScreen.INSTANCE, "ClickGui", new ItemStack(Items.TOTEM_OF_UNDYING)),
 							Triple.of(new BleachOptionsScreen(null), "Options", new ItemStack(Items.REDSTONE)),
