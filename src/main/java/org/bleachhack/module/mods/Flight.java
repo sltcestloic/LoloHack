@@ -73,7 +73,7 @@ public class Flight extends Module {
 			Vec3d forward = new Vec3d(0, 0, speed).rotateY(-(float) Math.toRadians(mc.player.getYaw()));
 			Vec3d strafe = forward.rotateY((float) Math.toRadians(90));
 
-			if (mc.options.jumpKey.isPressed())
+			if (mc.options.jumpKey.isPressed() && antiKickVel.equals(Vec3d.ZERO))
 				mc.player.setVelocity(mc.player.getVelocity().add(0, speed, 0));
 			if (mc.options.sneakKey.isPressed())
 				mc.player.setVelocity(mc.player.getVelocity().add(0, -speed, 0));
