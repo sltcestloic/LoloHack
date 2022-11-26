@@ -64,7 +64,7 @@ public class Killaura extends Module {
 
 	@BleachSubscribe
 	public void onTick(EventTick event) {
-		if (!mc.player.isAlive()) {
+		if (!mc.player.isAlive() || mc.player.getHungerManager().getFoodLevel() < 6) {
 			return;
 		}
 
