@@ -12,6 +12,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
@@ -225,11 +226,12 @@ public class Search extends Module {
 	}
 
 	public int[] getColorForBlock(BlockState state, BlockPos pos) {
-		if (state.getBlock() == Blocks.NETHER_PORTAL) {
-			return new int[] { 107, 0, 209 };
-		}
-
 		int color = state.getMapColor(mc.world, pos).color;
+		if (state.getBlock() == Blocks.NETHER_PORTAL)
+			return new int[] { 107, 0, 209 };
+		else if (state.getBlock() == Blocks.DEEPSLATE_DIAMOND_ORE)
+			color = MapColor.DIAMOND_BLUE.color;
+
 		return new int[] { (color & 0xff0000) >> 16, (color & 0xff00) >> 8, color & 0xff };
 	}
 }
