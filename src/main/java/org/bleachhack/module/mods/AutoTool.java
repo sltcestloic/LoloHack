@@ -100,8 +100,9 @@ public class AutoTool extends Module {
 			bestSlot = bestSlot == 0 ? 1 : bestSlot - 1;
 		}
 
-		if (state.isAir())
+		if (state.isAir()) {
 			return mc.player.getInventory().selectedSlot;
+		}
 
 		float bestSpeed = getMiningSpeed(mc.player.getInventory().getStack(bestSlot), state);
 

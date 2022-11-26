@@ -23,7 +23,7 @@ import net.minecraft.util.Hand;
 
 public class AutoEat extends Module {
 
-	private boolean eating;
+	public boolean eating;
 
 	public AutoEat() {
 		super("AutoEat", KEY_UNBOUND, ModuleCategory.PLAYER, "Automatically eats food for you.",

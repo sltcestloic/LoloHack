@@ -15,14 +15,20 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.SwordItem;
+import net.minecraft.screen.slot.SlotActionType;
+import org.bleachhack.BleachHack;
 import org.bleachhack.event.events.EventTick;
 import org.bleachhack.eventbus.BleachSubscribe;
 import org.bleachhack.module.Module;
 import org.bleachhack.module.ModuleCategory;
+import org.bleachhack.module.ModuleManager;
 import org.bleachhack.setting.module.SettingMode;
 import org.bleachhack.setting.module.SettingRotate;
 import org.bleachhack.setting.module.SettingSlider;
 import org.bleachhack.setting.module.SettingToggle;
+import org.bleachhack.util.InventoryUtils;
 import org.bleachhack.util.world.EntityUtils;
 import org.bleachhack.util.world.WorldUtils;
 
@@ -85,11 +91,31 @@ public class Killaura extends Module {
 
 				boolean wasSprinting = mc.player.isSprinting();
 
+				ItemStack stack = mc.player.getMainHandStack();
+				if (!(stack.getItem() instanceof SwordItem)) {
+					int bestSlot = mc.player.getInventory().selectedSlot;
+					if (!(stack.getItem() instanceof SwordItem)) {
+						for (int slot = 0; slot < 36; slot++) {
+							if (slot == mc.player.getInventory().selectedSlot || slot == bestSlot)
+								continue;
+
+							ItemStack itemStack = mc.player.getInventory().getStack(slot);
+							if (itemStack.getItem() instanceof SwordItem && !((AutoEat)ModuleManager.getModule("AutoEat")).eating) {
+								InventoryUtils.selectSlot(slot);
+								return;
+							}
+						}
+					}
+				}
+				if (stack.isDamageable() && stack.getMaxDamage() - stack.getDamage() < 2)
+					return;
+
 				if (wasSprinting)
 					mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.STOP_SPRINTING));
 
 				mc.interactionManager.attackEntity(mc.player, e);
 				mc.player.swingHand(Hand.MAIN_HAND);
+
 
 				if (wasSprinting)
 					mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.START_SPRINTING));
