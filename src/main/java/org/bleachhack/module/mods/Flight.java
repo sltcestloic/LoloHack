@@ -34,9 +34,10 @@ public class Flight extends Module {
 
 	@Override
 	public void onDisable(boolean inWorld) {
-		if (inWorld)
+		if (inWorld) {
 			mc.player.getAbilities().flying = false;
-		
+			mc.player.setVelocity(mc.player.getVelocity().getX() / 2,0,mc.player.getVelocity().getZ() / 2);
+		}
 		super.onDisable(inWorld);
 	}
 
