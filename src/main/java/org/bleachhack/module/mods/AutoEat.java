@@ -53,7 +53,7 @@ public class AutoEat extends Module {
 
 		if (getSetting(0).asToggle().getState() && mc.player.getHungerManager().getFoodLevel() <= getSetting(0).asToggle().getChild(0).asSlider().getValueInt()) {
 			startEating();
-		} else if (getSetting(1).asToggle().getState() && (int) mc.player.getHealth() + (int) mc.player.getAbsorptionAmount() <= getSetting(1).asToggle().getChild(0).asSlider().getValueInt()) {
+		} else if (getSetting(1).asToggle().getState() && (int) mc.player.getHealth() + (int) mc.player.getAbsorptionAmount() <= getSetting(1).asToggle().getChild(0).asSlider().getValueInt() && mc.player.getHungerManager().getFoodLevel() < 20) {
 			startEating();
 		}
 	}
