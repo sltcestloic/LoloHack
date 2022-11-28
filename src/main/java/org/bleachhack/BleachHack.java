@@ -39,7 +39,7 @@ public class BleachHack implements ModInitializer {
 
     private static BleachHack instance = null;
 
-    public static final String VERSION = "1.2.6";
+    public static final String VERSION = "1.2.7";
     public static final int INTVERSION = 40;
     public static Watermark watermark;
 

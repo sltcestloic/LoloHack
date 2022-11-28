@@ -28,6 +28,7 @@ import org.bleachhack.setting.module.SettingMode;
 import org.bleachhack.setting.module.SettingRotate;
 import org.bleachhack.setting.module.SettingSlider;
 import org.bleachhack.setting.module.SettingToggle;
+import org.bleachhack.util.BleachLogger;
 import org.bleachhack.util.InventoryUtils;
 import org.bleachhack.util.world.EntityUtils;
 import org.bleachhack.util.world.WorldUtils;
@@ -65,7 +66,8 @@ public class Killaura extends Module {
 				new SettingToggle("Raycast", true).withDesc("Only attacks if you can see the target."),
 				new SettingToggle("1.9 Delay", false).withDesc("Uses the 1.9+ delay between hits."),
 				new SettingSlider("Range", 0, 6, 4.25, 2).withDesc("Attack range."),
-				new SettingSlider("CPS", 0, 20, 8, 0).withDesc("Attack CPS if 1.9 delay is disabled."));
+				new SettingSlider("CPS", 0, 20, 8, 0).withDesc("Attack CPS if 1.9 delay is disabled."),
+				new SettingToggle("Ignore tags", true).withDesc("Doesn't attack entities with nametags (protect Hervé at all cost)"));
 	}
 
 	@BleachSubscribe
@@ -113,6 +115,7 @@ public class Killaura extends Module {
 				if (wasSprinting)
 					mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.STOP_SPRINTING));
 
+				BleachLogger.info(!getSetting(13).asToggle().getState() + " " +  !e.hasCustomName() + "");
 				mc.interactionManager.attackEntity(mc.player, e);
 				mc.player.swingHand(Hand.MAIN_HAND);
 
@@ -166,8 +169,8 @@ public class Killaura extends Module {
 						&& mc.player.distanceTo(e) <= getSetting(11).asSlider().getValue()
 						&& (mc.player.canSee(e) || !getSetting(9).asToggle().getState()))
 				.filter(e -> (EntityUtils.isPlayer(e) && getSetting(1).asToggle().getState())
-						|| (EntityUtils.isMob(e) && getSetting(2).asToggle().getState())
-						|| (EntityUtils.isAnimal(e) && getSetting(3).asToggle().getState())
+						|| (EntityUtils.isMob(e) && getSetting(2).asToggle().getState() && (!getSetting(13).asToggle().getState() || !e.hasCustomName()))
+						|| (EntityUtils.isAnimal(e) && getSetting(3).asToggle().getState() && (!getSetting(13).asToggle().getState() || !e.hasCustomName()))
 						|| (e instanceof ArmorStandEntity && getSetting(4).asToggle().getState())
 						|| ((e instanceof ShulkerBulletEntity || e instanceof AbstractFireballEntity) && getSetting(5).asToggle().getState()))
 				.sorted(comparator)
