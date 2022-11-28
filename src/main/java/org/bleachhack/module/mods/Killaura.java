@@ -115,7 +115,6 @@ public class Killaura extends Module {
 				if (wasSprinting)
 					mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.STOP_SPRINTING));
 
-				BleachLogger.info(!getSetting(13).asToggle().getState() + " " +  !e.hasCustomName() + "");
 				mc.interactionManager.attackEntity(mc.player, e);
 				mc.player.swingHand(Hand.MAIN_HAND);
 
