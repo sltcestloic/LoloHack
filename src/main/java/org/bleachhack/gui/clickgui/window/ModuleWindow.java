@@ -8,27 +8,25 @@
  */
 package org.bleachhack.gui.clickgui.window;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import org.bleachhack.module.Module;
-import org.bleachhack.module.ModuleManager;
-import org.bleachhack.module.mods.ClickGui;
-import org.bleachhack.setting.module.ModuleSetting;
-
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvents;
+import org.bleachhack.module.Module;
+import org.bleachhack.module.ModuleManager;
+import org.bleachhack.module.mods.ClickGui;
+import org.bleachhack.setting.module.ModuleSetting;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class ModuleWindow extends ClickGuiWindow {
 
-	public List<Module> modList = new ArrayList<>();
+	public List<Module> modList;
 	public LinkedHashMap<Module, Boolean> mods = new LinkedHashMap<>();
 
 	private int len;
